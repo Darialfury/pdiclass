@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-def hog(img, bin_n = 16):
+def hog(img, bin_n = 8):
     gx = cv2.Sobel(img, cv2.CV_32F, 1, 0)
     gy = cv2.Sobel(img, cv2.CV_32F, 0, 1)
     mag, ang = cv2.cartToPolar(gx, gy)
@@ -14,4 +14,4 @@ def hog(img, bin_n = 16):
     mag_cells = mag[:10,:10], mag[10:,:10], mag[:10,10:], mag[10:,10:]
     hists = [np.bincount(b.ravel(), m.ravel(), bin_n) for b, m in zip(bin_cells, mag_cells)]
     hist = np.hstack(hists)
-    return hist, bins
+    return hist, bins, bin_cells
